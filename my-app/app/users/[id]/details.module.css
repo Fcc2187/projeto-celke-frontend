@@ -1,0 +1,71 @@
+.pageContainer {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2.5rem;
+  color: #333;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.detailItem {
+  background-color: #fcfcfc;
+  border: 1px solid #eee;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+}
+
+.detailLabel {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detailValue {
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.centeredMessage {
+  text-align: center;
+  margin-top: 4rem;
+  padding: 2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.errorMessage {
+  color: #d9534f;
+  background-color: #fdf2f2;
+  border: 1px solid #f0c0c0;
+  border-radius: 8px;
+}
