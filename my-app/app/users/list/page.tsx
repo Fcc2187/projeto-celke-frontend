@@ -1,7 +1,9 @@
 "use client";
 
 import instance from "@/app/services/api"; 
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import styles from './list.module.css'; 
 
 interface User {
     id: number;
@@ -34,20 +36,29 @@ export default function Users() {
     }, []); 
 
     if (loading) {
-        return <div>Carregando...</div>;
+        return <div className={styles.centeredMessage}>Carregando...</div>;
     }
 
     if (error) {
-        return <div>Erro: {error}</div>;
+        return <div className={styles.errorMessage}>Erro: {error}</div>;
     }
 
     return (
-        <div>
-            <h1>User List Page</h1>
-            <ul>
+        <div className={styles.pageContainer}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>Lista de Usuários</h1>
+                <Link href="/users/create" className={styles.createLink}>
+                    Cadastrar
+                </Link>
+            </div>
+            
+            <ul className={styles.list}>
                 {users.map(user => (
-                    <li key={user.id}>
-                        {user.name} ({user.email})
+                    <li key={user.id} className={styles.listItem}>
+                        <div>
+                            <div className={styles.userName}>{user.name}</div>
+                            <div className={styles.userEmail}>{user.email}</div>
+                        </div>
                     </li>
                 ))}
             </ul>
