@@ -1,9 +1,11 @@
 'use client'
 
+// 1. Importar o hook useParams
 import { useEffect, useState } from "react"
+import { useParams } from "next/navigation" 
 import instance from "@/app/services/api";
 import Link from "next/link";
-import styles from './details.module.css'; // 1. Importar estilos
+import styles from './details.module.css';
 
 interface User {
     id: number;
@@ -13,24 +15,34 @@ interface User {
     updatedAt?: string;
 }
 
-export default function UserDetails({ params }: { params: { id: string } }) {
+// 2. Remover 'params' das props da funcao
+export default function UserDetails() {
     
+    // 3. Chamar o hook para pegar os parametros
+    const params = useParams();
+
     const [user, setUser] = useState<User | null>(null);
     const [ error, setError ] = useState<string | null>(null);
-    const [ loading, setLoading ] = useState(true); // 3. Adicionar estado de loading
+    const [ loading, setLoading ] = useState(true);
 
     useEffect(() => {
-        // 4. Usar 'params.id' diretamente. É mais simples e correto.
-        const userId = params.id; 
+        // 4. Pegar o ID do hook. 
+        // Ele pode ser uma string ou um array, entao tratamos isso.
+        let userId: string | undefined = undefined;
+
+        if (Array.isArray(params.id)) {
+            userId = params.id[0];
+        } else {
+            userId = params.id;
+        }
 
         const fetchUserDetails = async (id: string) => {
             try {
-                // Não precisa setar loading(true) aqui, já começa true
                 const response = await instance.get(`/users/${id}`);
                 setUser(response.data);
             } catch (error) {
-                console.error("Erro ao buscar detalhes do usuário:", error);
-                setError("Falha ao buscar detalhes do usuário. Verifique se o ID está correto.");
+                console.error("Erro ao buscar detalhes do usuario:", error);
+                setError("Falha ao buscar detalhes do usuario.");
             } finally {
                 setLoading(false);
             }
@@ -38,16 +50,19 @@ export default function UserDetails({ params }: { params: { id: string } }) {
 
         if (userId) {
             fetchUserDetails(userId);
+        } else {
+            setError("ID do usuario nao fornecido.");
+            setLoading(false);
         }
-    }, [params.id]); // 5. Depender de params.id
 
-    // Função para formatar datas (opcional, mas melhora o visual)
+        // 5. Agora podemos depender de 'params.id' com seguranca
+    }, [params.id]); 
+
     const formatDate = (dateString?: string) => {
         if (!dateString) return "N/A";
         return new Date(dateString).toLocaleString('pt-BR');
     }
 
-    // 6. Renderização condicional (Loading)
     if (loading) {
         return (
             <div className={styles.pageContainer}>
@@ -56,38 +71,35 @@ export default function UserDetails({ params }: { params: { id: string } }) {
         );
     }
 
-    // 7. Renderização condicional (Erro)
     if (error) {
         return (
             <div className={styles.pageContainer}>
                 <Link href="/users/list" className={styles.backLink}>
-                    &larr; Voltar para a lista
+                    &lt;- Voltar para a lista
                 </Link>
                 <div className={styles.errorMessage}>{error}</div>
             </div>
         );
     }
 
-    // 8. Renderização condicional (Não encontrado)
     if (!user) {
         return (
             <div className={styles.pageContainer}>
                 <Link href="/users/list" className={styles.backLink}>
-                    &larr; Voltar para a lista
+                    &lt;- Voltar para a lista
                 </Link>
-                <div className={styles.centeredMessage}>Usuário não encontrado.</div>
+                <div className={styles.centeredMessage}>Usuario nao encontrado.</div>
             </div>
         )
     }
 
-    // 9. Renderização de Sucesso
     return (
         <div className={styles.pageContainer}>
             <Link href="/users/list" className={styles.backLink}>
-                &larr; Voltar para a lista
+                &lt;- Voltar para a lista
             </Link>
 
-            <h1 className={styles.title}>Detalhes do Usuário</h1>
+            <h1 className={styles.title}>Detalhes do Usuario</h1>
             
             <div className={styles.detailsGrid}>
                 <div className={styles.detailItem}>
