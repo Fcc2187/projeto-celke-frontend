@@ -2,22 +2,22 @@
 
 import instance from "@/app/services/api";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation"; 
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, FormEvent } from "react";
-import styles from './edit.module.css'; 
+import styles from './edit.module.css';
+import Swal from "sweetalert2";
+import { AxiosError } from "axios";
 
 export default function EditUser() {
-    const router = useRouter(); // Para redirecionar
-    const params = useParams(); // Para pegar o ID da URL
+    const router = useRouter();
+    const params = useParams();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null); 
-    
-    const [formError, setFormError] =useState<string | null>(null); 
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
@@ -33,7 +33,6 @@ export default function EditUser() {
             try {
                 const response = await instance.get(`/users/${userId}`);
                 const user = response.data;
-                // Preencher xo formulario com os dados do usuario
                 setName(user.name);
                 setEmail(user.email);
             } catch (err) {
@@ -48,14 +47,16 @@ export default function EditUser() {
     }, [params.id]);
 
     const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault(); // Impedir o recarregamento da pagina
+        e.preventDefault();
         setIsSubmitting(true);
-        setFormError(null);
-        setSuccessMessage(null);
 
-        // Validacao simples
         if (!name || !email) {
-            setFormError("Nome e email sao obrigatorios.");
+            Swal.fire({
+                title: 'Atencao',
+                text: 'Nome e email sao obrigatorios.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
             setIsSubmitting(false);
             return;
         }
@@ -64,42 +65,57 @@ export default function EditUser() {
 
         try {
             await instance.put(`/users/${id}`, { name, email });
-            
-            setSuccessMessage("Usuario atualizado com sucesso! Redirecionando...");
 
-            setTimeout(() => {
-                router.push('/users/list');
-            }, 2000);
+            await Swal.fire({
+                title: 'Sucesso!',
+                text: 'Usuario atualizado com sucesso.',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+            });
 
-        } catch (err) {
-            console.error("Erro ao atualizar usuario:", err);
-            setFormError("Falha ao atualizar usuario. Tente novamente.");
+            router.push('/users/list');
+
+        } catch (error) {
+            console.error("Erro ao atualizar usuario:", error);
+
+            let errorMessage = "Falha ao atualizar usuario. Tente novamente.";
+            if (error instanceof AxiosError && error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            }
+
+            Swal.fire({
+                title: 'Erro',
+                text: errorMessage,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+
             setIsSubmitting(false);
         }
     };
 
     if (loading) {
-        return <div className={styles.centeredMessage}>Carregando dados...</div>; 
-    }
+        return <div className={styles.centeredMessage}>Carregando dados...</div>;
+    }
 
-    if (error) {
-        return <div className={`${styles.centeredMessage} ${styles.errorMessage}`}>Erro: {error}</div>; 
-    }
+    if (error) {
+        return <div className={`${styles.centeredMessage} ${styles.errorMessage}`}>Erro: {error}</div>;
+    }
 
-    return (
-        <div className={styles.pageContainer}>
-            <div className={styles.header}>
-                <h1 className={styles.title}>Editar Usuario</h1>
-                <Link href="/users/list" className={styles.backLink}>
-                    Voltar para a lista
-                </Link>
-            </div>
+    return (
+        <div className={styles.pageContainer}>
+            <Link href="/users/list" className={styles.backLink}>
+                Voltar para a lista
+            </Link>
 
             <form className={styles.form} onSubmit={handleSubmit}>
+                <h1 className={styles.title}>Editar Usuario</h1>
+
                 <div className={styles.formGroup}>
                     <label htmlFor="name" className={styles.label}>Nome</label>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         id="name"
                         className={styles.input}
                         value={name}
@@ -110,8 +126,8 @@ export default function EditUser() {
 
                 <div className={styles.formGroup}>
                     <label htmlFor="email" className={styles.label}>Email</label>
-                    <input 
-                        type="email" 
+                    <input
+                        type="email"
                         id="email"
                         className={styles.input}
                         value={email}
@@ -120,17 +136,14 @@ export default function EditUser() {
                     />
                 </div>
 
-                {formError && <div className={styles.formErrorMessage}>{formError}</div>}
-                {successMessage && <div className={styles.successMessage}>{successMessage}</div>}
-
-                <button 
-                    type="submit" 
-                    className={styles.button} 
+                <button
+                    type="submit"
+                    className={styles.submitButton}
                     disabled={isSubmitting}
                 >
                     {isSubmitting ? "Salvando..." : "Salvar Alteracoes"}
                 </button>
             </form>
-        </div>
-    );
+        </div>
+    );
 }
