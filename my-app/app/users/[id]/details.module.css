@@ -1,63 +1,89 @@
 .pageContainer {
-  max-width: 700px;
+  max-width: 800px;
   margin: 2rem auto;
-  padding: 2.5rem;
+  padding: 2rem;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Novo container para alinhar o "Voltar" e o "Baixar PDF" */
+.headerActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .backLink {
   display: inline-block;
-  margin-bottom: 2rem;
+  font-size: 0.9rem;
   color: #007bff;
   text-decoration: none;
-  font-size: 0.9rem;
+  transition: color 0.2s ease;
 }
 
 .backLink:hover {
-  text-decoration: underline;
+  color: #0056b3;
+}
+
+.pdfButton {
+  background-color: #6c757d; 
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pdfButton:hover {
+  background-color: #5a6268;
 }
 
 .title {
-  text-align: center;
   margin-top: 0;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
   color: #333;
 }
 
 .detailsGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .detailItem {
-  background-color: #fcfcfc;
-  border: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
   padding: 1rem 1.5rem;
-  border-radius: 6px;
+  border-bottom: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+.detailItem:last-child {
+  border-bottom: none;
 }
 
 .detailLabel {
-  display: block;
-  font-size: 0.8rem;
   font-weight: 600;
   color: #555;
-  margin-bottom: 0.25rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .detailValue {
-  font-size: 1.1rem;
-  color: #222;
+  color: #333;
+  font-weight: 500;
 }
 
 .centeredMessage {
   text-align: center;
   margin-top: 4rem;
-  padding: 2rem;
   font-size: 1.2rem;
   font-weight: 500;
   color: #555;
@@ -65,7 +91,7 @@
 
 .errorMessage {
   color: #d9534f;
-  background-color: #fdf2f2;
-  border: 1px solid #f0c0c0;
-  border-radius: 8px;
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 1.2rem;
 }

@@ -1,11 +1,11 @@
 'use client'
 
-// 1. Importar o hook useParams
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation" 
 import instance from "@/app/services/api";
 import Link from "next/link";
 import styles from './details.module.css';
+import jsPDF from "jspdf"; // Certifique-se de que instalou: npm install jspdf
 
 interface User {
     id: number;
@@ -15,19 +15,62 @@ interface User {
     updatedAt?: string;
 }
 
-// 2. Remover 'params' das props da funcao
 export default function UserDetails() {
     
-    // 3. Chamar o hook para pegar os parametros
     const params = useParams();
 
     const [user, setUser] = useState<User | null>(null);
     const [ error, setError ] = useState<string | null>(null);
     const [ loading, setLoading ] = useState(true);
 
+    // Função auxiliar para formatar data (reutilizada no PDF)
+    const formatDate = (dateString?: string) => {
+        if (!dateString) return "N/A";
+        return new Date(dateString).toLocaleString('pt-BR');
+    }
+
+    const generatePDF = () => {
+        if (!user) return;
+
+        const doc = new jsPDF();
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(20);
+        doc.text("Detalhes do Usuário", 105, 20, { align: "center" });
+
+        doc.setLineWidth(0.5);
+        doc.line(20, 25, 190, 25);
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+
+        let yPos = 40; // Posição vertical inicial
+        const lineHeight = 10; // Espaço entre linhas
+
+        const addLine = (label: string, value: string) => {
+            doc.setFont("helvetica", "bold");
+            doc.text(`${label}:`, 20, yPos);
+            
+            doc.setFont("helvetica", "normal");
+            doc.text(value, 60, yPos); 
+            
+            yPos += lineHeight;
+        };
+
+        addLine("ID", user.id.toString());
+        addLine("Nome", user.name);
+        addLine("Email", user.email);
+        addLine("Criado em", formatDate(user.createdAt));
+        addLine("Atualizado em", formatDate(user.updatedAt));
+
+        doc.setFontSize(10);
+        doc.setTextColor(150);
+        doc.text("Gerado pelo Sistema de Gestão de Usuários", 105, 280, { align: "center" });
+
+        doc.save(`usuario_${user.name.replace(/\s+/g, '_')}.pdf`);
+    }
+
     useEffect(() => {
-        // 4. Pegar o ID do hook. 
-        // Ele pode ser uma string ou um array, entao tratamos isso.
         let userId: string | undefined = undefined;
 
         if (Array.isArray(params.id)) {
@@ -55,13 +98,7 @@ export default function UserDetails() {
             setLoading(false);
         }
 
-        // 5. Agora podemos depender de 'params.id' com seguranca
     }, [params.id]); 
-
-    const formatDate = (dateString?: string) => {
-        if (!dateString) return "N/A";
-        return new Date(dateString).toLocaleString('pt-BR');
-    }
 
     if (loading) {
         return (
@@ -95,9 +132,15 @@ export default function UserDetails() {
 
     return (
         <div className={styles.pageContainer}>
-            <Link href="/users/list" className={styles.backLink}>
-                &lt;- Voltar para a lista
-            </Link>
+            <div className={styles.headerActions}>
+                <Link href="/users/list" className={styles.backLink}>
+                    &lt;- Voltar para a lista
+                </Link>
+                
+                <button onClick={generatePDF} className={styles.pdfButton}>
+                    Baixar PDF
+                </button>
+            </div>
 
             <h1 className={styles.title}>Detalhes do Usuario</h1>
             
