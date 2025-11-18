@@ -1,10 +1,19 @@
 import Link from "next/link";
+import styles from "./page.module.css"; 
 
 export default function Home() {
   return (
-    <div>
-      <h1>Welcome to My App</h1>
-      <button><Link href="/users/list">Go to User List</Link></button>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Seja bem vindo!</h1>
+        <p className={styles.subtitle}>
+          Gerencie seus usuários de forma simples, rápida e eficiente.
+        </p>
+        
+        <Link href="/users/list" className={styles.ctaButton}>
+          Ir para a lista de usuários
+        </Link>
+      </div>
     </div>
   );
 }

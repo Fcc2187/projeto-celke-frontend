@@ -1,0 +1,58 @@
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4f7f6; 
+  padding: 1rem;
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 3rem 4rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); 
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #222;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #007bff; 
+  color: #ffffff;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+}
+
+.ctaButton:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+  transform: translateY(-2px);
+}

@@ -82,8 +82,8 @@
 }
 
 .detailsLink {
-  background-color: #ffffff;
-  color: #555;
+  background-color: #007bff;
+  color: #fff;
   border-color: #ddd;
 }
 
@@ -93,14 +93,14 @@
 }
 
 .editLink {
-  background-color: #007bff;
-  color: #ffffff;
-  border-color: #007bff;
+  background-color: #ffc222;
+  color: #fbfbf8;
+  border-color: #ffff;
 }
 
 .editLink:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background-color: #fff;
+  border-color: #fff;
 }
 
 .createLink {
