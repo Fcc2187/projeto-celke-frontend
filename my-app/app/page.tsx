@@ -13,6 +13,10 @@ export default function Home() {
         <Link href="/users/list" className={styles.ctaButton}>
           Ir para a lista de usuários
         </Link>
+
+        <Link href="/reports" className={`${styles.ctaButton} ${styles.secondaryButton}`}>
+          Ver Relatórios e Gráficos
+        </Link>
       </div>
     </div>
   );

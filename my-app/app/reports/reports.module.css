@@ -1,0 +1,81 @@
+/* reports.module.css */
+
+.pageContainer {
+    max-width: 1200px; /* Aumenta a largura para caber dois gráficos */
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.backLink {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: #007bff;
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+}
+
+.backLink:hover {
+    color: #0056b3;
+}
+
+/* Novo container para organizar os gráficos */
+.graphsContainer {
+    display: grid;
+    grid-template-columns: 1fr; /* Por padrão, um gráfico por linha em telas menores */
+    gap: 2rem; /* Espaçamento entre os gráficos */
+}
+
+@media (min-width: 992px) { /* Em telas maiores, dois gráficos por linha */
+    .graphsContainer {
+        grid-template-columns: 1fr 1fr; /* Dois gráficos por linha */
+    }
+}
+
+.chartCard { /* Um card para cada gráfico */
+    padding: 1rem;
+    background-color: #fcfcfc;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.chartSubtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+
+
+.centeredMessage {
+    text-align: center;
+    padding: 4rem;
+    font-size: 1.2rem;
+    color: #777;
+}
+
+.errorMessage {
+    color: #d9534f;
+    font-weight: 600;
+}
+
+.footerNote {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #999;
+    margin-top: 2.5rem; /* Mais espaco no rodape */
+}
