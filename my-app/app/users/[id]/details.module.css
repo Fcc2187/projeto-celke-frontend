@@ -7,7 +7,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Novo container para alinhar o "Voltar" e o "Baixar PDF" */
 .headerActions {
   display: flex;
   justify-content: space-between;

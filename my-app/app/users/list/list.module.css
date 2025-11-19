@@ -76,9 +76,9 @@
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
-  transition: all 0.2s ease;
   border: 1px solid transparent;
   white-space: nowrap;
+  
 }
 
 .detailsLink {
@@ -88,19 +88,21 @@
 }
 
 .detailsLink:hover {
-  background-color: #f7f7f7;
+  background-color: #0056b3;
   border-color: #ccc;
+  transition: background-color 0.2s ease;
 }
 
 .editLink {
-  background-color: #ffc222;
+  background-color: #f5b105;
   color: #fbfbf8;
   border-color: #ffff;
 }
 
 .editLink:hover {
-  background-color: #fff;
+  background-color: #FFC222;
   border-color: #fff;
+  transition: background-color 0.2s ease;
 }
 
 .createLink {
@@ -143,7 +145,6 @@
   transition: all 0.2s ease;
   border: 1px solid transparent;
   white-space: nowrap;
-
   background-color: #d9534f;
   color: #ffffff;
   border-color: #d9534f;
